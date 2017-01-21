@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
-project( DisplayImage )
+project( Vision )
 find_package( OpenCV REQUIRED )
-add_executable( DisplayImage DisplayImage.cpp )
-target_link_libraries( DisplayImage ${OpenCV_LIBS} )
+add_executable( Vision Ball.cpp Commons.cpp Objects.cpp main.cpp )
+target_link_libraries( Vision ${OpenCV_LIBS} )

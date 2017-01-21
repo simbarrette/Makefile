@@ -7,27 +7,30 @@
 #LIBS = `pkg-config --libs opencv`
 
 # define the C compiler to use
-CC = gcc
+CC = g++
 
 # define any compile-time flags
-CFLAGS = -Wall -g
+#CFLAGS = -Wall -g
+CFLAGS = `pkg-config --cflags opencv`
 
 # define any directories containing header files other than /usr/include
 #
-INCLUDES = -I/home/newhall/include  -I../include
+INCLUDES = -I/usr/local/include/  -I../include
 
 # define library paths in addition to /usr/lib
 #   if I wanted to include libraries not in /usr/lib I'd specify
 #   their path using -Lpath, something like:
-LFLAGS = -L/home/newhall/lib  -L../lib
+#LFLAGS = -L/home/newhall/lib  -L../lib
 
 # define any libraries to link into executable:
 #   if I want to link in libraries (libx.so or libx.a) I use the -llibname 
 #   option, something like (this will link in libmylib.so and libm.so:
-LIBS = -lmylib -lm
+#LIBS = -lmylib -lm
+#LIBS = -opencv -opencv2
+LIBS = `pkg-config --libs opencv`
 
 # define the C source files
-SRCS = emitter.c error.c init.c lexer.c main.c symbol.c parser.c
+SRCS = Ball.cpp Commons.cpp Objects.cpp main.cpp 
 
 # define the C object files 
 #
@@ -37,10 +40,10 @@ SRCS = emitter.c error.c init.c lexer.c main.c symbol.c parser.c
 # Below we are replacing the suffix .c of all words in the macro SRCS
 # with the .o suffix
 #
-OBJS = $(SRCS:.c=.o)
+OBJS = $(SRCS:.cpp=.o)
 
 # define the executable file 
-MAIN = mycc
+MAIN = vision
 
 #
 # The following part of the makefile is generic; it can be used to 
@@ -51,22 +54,22 @@ MAIN = mycc
 .PHONY: depend clean
 
 all:    $(MAIN)
-        @echo  Simple compiler named mycc has been compiled
+	@echo  Simple compiler named vision has been compiled
 
 $(MAIN): $(OBJS) 
-        $(CC) $(CFLAGS) $(INCLUDES) -o $(MAIN) $(OBJS) $(LFLAGS) $(LIBS)
+	$(CC) $(CFLAGS) $(INCLUDES) -o $(MAIN) $(OBJS) $(LIBS)
 
 # this is a suffix replacement rule for building .o's from .c's
 # it uses automatic variables $<: the name of the prerequisite of
 # the rule(a .c file) and $@: the name of the target of the rule (a .o file) 
 # (see the gnu make manual section about automatic variables)
 .c.o:
-        $(CC) $(CFLAGS) $(INCLUDES) -c $<  -o $@
+	$(CC) $(CFLAGS) $(INCLUDES) -c $<  -o $@
 
 clean:
-        $(RM) *.o *~ $(MAIN)
+	$(RM) *.o *~ $(MAIN)
 
 depend: $(SRCS)
-        makedepend $(INCLUDES) $^
+	makedepend $(INCLUDES) $^
 
 # DO NOT DELETE THIS LINE -- make depend needs it
