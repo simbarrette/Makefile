@@ -1,0 +1,21 @@
+#CC=g++
+#CFLAGS = `pkg-config --cflags opencv`
+#LIBS = `pkg-config --libs opencv`
+#
+#executable: program.o Detection.o prediction.o
+#    $(CC) -o executable $(LIBS) program.o Detection.o prediction
+#
+#program.o: 
+#   $(CC) $(CFLAGS) -c program.cpp 
+#Detection.o:
+#        $(CC) $(CFLAGS) -c Detection.cpp
+#prediction.o:
+#        $(CC) $(CFLAGS) -c prediction.cpp
+
+CC=g++
+CFLAGS=pkg-config --cflags opencv
+LIBS=pkg-config --libs opencv
+
+
+executable: program.cpp Detection.cpp prediction.cpp
+    $(CC) program.cpp Detection.cpp prediction.cpp -o executable $(LIBS) $(CFLAGS)
